@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>研究ポートフォリオ | 日本大学大学院 M1</title>
+    <meta name="description" content="日本大学大学院 理工学研究科 M1の研究ポートフォリオサイトです。YOLO系物体検出とLocal生成AIを用いた教育ドキュメントのアクセシブル化について研究しています。">
+    <style>
+        /* --- デザインシステム & 変数（落ち着いた配色と十分なコントラスト） --- */
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --accent-color: #1a365d; /* 視認性の高いディープネイビー */
+            --accent-light: #e6f0fa;
+            --border-color: #dee2e6;
+            --max-width: 1000px;
+            --font-stack: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+        }
+
+        /* --- リセット & 基本設定 --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-stack);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+        a:hover, a:focus {
+            color: #0d2347;
+            text-decoration: none;
+        }
+        a:focus, button:focus {
+            outline: 3px solid #ffbf47; /* アクセシビリティ：フォーカスリングの強調 */
+        }
+
+        /* --- ヘッダー & ナビゲーション --- */
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+        }
+
+        .site-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            transition: color 0.2s;
+        }
+
+        nav a:hover, nav a:focus {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+        }
+
+        /* モバイルメニューボタン（デフォルト非表示） */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        /* --- メインレイアウト --- */
+        main {
+            max-width: var(--max-width);
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            background-color: var(--bg-secondary);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+            scroll-margin-top: 5rem; /* スクロール時の余白確保 */
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--accent-light);
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        /* --- 各セクションのスタイル --- */
+        /* Profile */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        .profile-meta {
+            list-style: none;
+        }
+        .profile-meta li {
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+        }
+        .profile-meta strong {
+            display: inline-block;
+            width: 100px;
+            color: var(--text-secondary);
+        }
+
+        /* Research */
+        .research-theme {
+            background-color: var(--accent-light);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .research-details {
+            display: grid;
+            gap: 1.5rem;
+        }
+        .research-item h4 {
+            font-size: 1.05rem;
+            color: var(--accent-color);
+            margin-bottom: 0.25rem;
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .skill-category {
+            background-color: var(--bg-primary);
+            padding: 1.25rem;
+            border-radius: 6px;
+        }
+        .skill-category ul {
+            list-style-position: inside;
+            margin-top: 0.5rem;
+        }
+
+        /* Publications & Projects */
+        .list-styled {
+            list-style: none;
+        }
+        .list-styled li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .list-styled li::before {
+            content: "■";
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-size: 0.8rem;
+            top: 2px;
+        }
+        .badge {
+            background-color: var(--accent-light);
+            color: var(--accent-color);
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        /* Contact */
+        .contact-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        .contact-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        /* --- フッター --- */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-secondary);
+        }
+
+        /* --- レスポンシブ対応（スマートフォン・タブレット向け） --- */
+        @media (max-width: 768px) {
+            .nav-container {
+                position: relative;
+            }
+            .menu-toggle {
+                display: block; /* モバイル用ハンバーガーボタン表示 */
+            }
+            nav {
+                display: none; /* 初期状態は非表示 */
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: var(--bg-secondary);
+                border-bottom: 1px solid var(--border-color);
+                box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            }
+            nav.active {
+                display: block;
+            }
+            nav ul {
+                flex-direction: column;
+                padding: 1rem 1.5rem;
+                gap: 1rem;
+            }
+            section {
+                padding: 1.5rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="#main-content" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;" onfocus="this.style.position='static'; this.style.width='auto'; this.style.height='auto';">本文へスキップ</a>
+
+    <header>
+        <div class="nav-container">
+            <div class="site-title" aria-hidden="true">研究ポートフォリオ</div>
+            <button class="menu-toggle" id="menu-btn" aria-label="メニューを開閉する" aria-expanded="false" aria-controls="nav-menu">☰</button>
+            <nav id="nav-menu">
+                <ul>
+                    <li><a href="#profile">プロフィール</a></li>
+                    <li><a href="#research">研究テーマ</a></li>
+                    <li><a href="#projects">研究計画</a></li>
+                    <li><a href="#skills">スキル</a></li>
+                    <li><a href="#publications">パブリケーション&タイムライン</a></li>
+                    <li><a href="#contact">コンタクト</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main-content">
+
+        <section id="profile" aria-labelledby="heading-profile">
+            <h2 id="heading-profile">プロフィール</h2>
+            <div class="profile-grid">
+                <div>
+                    <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">氏名：原嶋康介</h3>
+                    <ul class="profile-meta">
+                        <li><strong>所属:</strong> 日本大学大学院 理工学研究科 情報科学専攻</li>
+                        <li><strong>学年:</strong> 博士前期課程（修士課程）1年</li>
+                        <li><strong>研究室:</strong> 西脇研究室 </li>
+                    </ul>
+                    <p style="margin-top: 1rem; color: var(--text-secondary);">
+                        大学院では、視覚障害をはじめとする多様なニーズを持つ学習者のために、機械学習（物体検出）とローカルAI技術を組み合わせた、安全かつ個別最適化された教材のアクセシブル化に関する研究を行っています 。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="research" aria-labelledby="heading-research">
+            <h2 id="heading-research">研究テーマ</h2>
+            <div class="research-theme">
+                研究テーマ：YOLO系物体検出の教育系日本語ドキュメントの独自ファインチューニングとLocal生成AIによる教育機密ドキュメントの個別最適化されたアクセシブル化の研究 
+            </div>
+            
+            <div class="research-details">
+                <div class="research-item">
+                    <h4>【背景】</h4>
+                    <p>図表や画像を含む複雑なレイアウトの日本教材において、障害者がその内容を正確に理解することができません。また、障がい者向けの文書認識はＯＣＲが主流ですが、複雑なレイアウトから図表や数式を要素ごとに識別して抽出することも困難です。また、近年の視覚言語モデルでも精密な領域分割はできず、要素に応じた適切な変換処理が行えません。</p>
+                </div>
+                
+                <div class="research-item">
+                    <h4>【目的】</h4>
+                    <p>外部と完全に遮断されたLocal生成AIと物体検出技術を組み合わせることで、データの機密性を完全に保持しながら、障がい者一人ひとりの特性に合わせた教材の自動アクセシブル化・個別最適化を両立します。</p>
+                </div>
+                
+                <div class="research-item">
+                    <h4>【手法の概要】 </h4>
+                    <p>教育ドキュメント（教科書やプリント）には図表・数式・本文などが混在しています 。まず、物体検出によってこれらの構成要素を精密に領域分割します 。切り出された各領域に対して、生成AIを用いて学年に応じたLaTeX変換や視覚障害向けの代替テキスト生成などを個別に実行します 。</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" aria-labelledby="heading-projects">
+            <h2 id="heading-projects">研究計画</h2>
+            <ul class="list-styled">
+                <li>
+                    <strong>教育ドキュメントの自動レイアウト解析システムの開発</strong><br>
+                    実際の教科書やプリントなどのデータを用いて、図・表・数式・文章といった異なる要素を、コンピューターが画像として正確に見分けるための識別モデルの構築と検証を行います。
+                </li>
+                <li>
+                    <strong>安全なオフライン環境でのアクセシブル変換パイプラインの構築</strong><br>
+                    外部のインターネットにデータを送信しないローカル生成AIと、文字や数式を読み取る技術を組み合わせ、個人の機密情報を守りながら、どのような障害を持つ人でも読めるように自動変換する仕組みを構築します。
+                </li>
+            </ul>
+        </section>
+
+        <section id="skills" aria-labelledby="heading-skills">
+            <h2 id="heading-skills">スキル</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>プログラミング言語</h3>
+                    <ul>
+                        <li>Python (データ分析、ディープラーニング)</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>ツール・フレームワーク</h3>
+                    <ul>
+                        <li>PyTorch (物体検出ファインチューニング)</li>
+                        <li>Linux</li>
+                        <li>LaTeX</li>
+                    </ul>
+                </div>
+                <div class="skill-category">
+                    <h3>分析手法・評価手法</h3>
+                    <ul>
+                        <li>物体検出評価指標 (mAP, F1-score)</li>
+                        <li>レイアウト解析・OCR比較評価</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="publications" aria-labelledby="heading-publications">
+            <h2 id="heading-publications">パブリケーション&タイムライン</h2>
+            
+            <h3 style="margin-top: 1rem; color: var(--accent-color);">学会発表（予定・必達）</h3>
+            <ul class="list-styled">
+                <li><span class="badge">2027年2月</span> <strong>IA4IE 2027</strong>（駿河台）にて口頭発表予定</li>
+                <li><span class="badge">2027年12月</span> <strong>日本大学理工学部 学術講演会（第71回）</strong>にて発表予定</li>
+                <li><span class="badge">2028年2月</span> <strong>IA4IE 2028</strong>（修士論文最終版ベース）発表予定</li>
+            </ul>
+        </section>
+
+        <section id="contact" aria-labelledby="heading-contact">
+            <h2 id="heading-contact">コンタクト</h2>
+            <p style="margin-bottom: 1.5rem;">お問い合わせ</p>
+            <ul class="contact-links">
+                <li>
+                    <strong>Email:</strong> <a href="mailto:csko26001@g.nihon-u.ac.jp">csko26001@g.nihon-u.ac.jp (大学)</a>
+                </li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 原嶋康介 (Your Name). All Rights Reserved.</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem; color: #868e96;">当サイトはWebアクセシビリティに配慮してマークアップされています。</p>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+
+        menuBtn.addEventListener('click', () => {
+            const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
+            
+            // 状態を反転
+            menuBtn.setAttribute('aria-expanded', !isExpanded);
+            navMenu.classList.toggle('active');
+            
+            // ボタンのアイコンを変更（メニュー開いている時は×、閉じている時は☰）
+            menuBtn.textContent = isExpanded ? '☰' : '✕';
+        });
+
+        // ナビゲーションリンクをクリックした時に自動でメニューを閉じる（スマホ対策）
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                    menuBtn.textContent = '☰';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
